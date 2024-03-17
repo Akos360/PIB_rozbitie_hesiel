@@ -1,0 +1,227 @@
+1
+Hi my name is Akos and I will be talking about Freely distributed password cracking tools
+
+2 Contents
+So for the Progress Report 1 here are the contents of this presentation.
+First I will give a brief introduction about authentication
+Then I will move on to Password hashing schemes, in short PHS
+I will talk a bit about the background theory
+Then I will explain the Key-Derivation function
+I will move onto the Password based key derivation Function 2
+And also 2 other popular schemes such as Bcrypt and Scrypt
+
+After that I will show 2 different freely distributed password cracking tools
+First the Hashcat and after the John the ripper tool
+
+3 Introduction Authentication
+For authenticating a user there are 2 different types. One-factor authentication
+relies solely on one type of information for verification (usually a password), 
+It’s the simplest form of authentication and is commonly used in many basic systems.
+
+Two-factor authentication enhances security by requiring two different types of
+information, making it harder for unauthorized users to gain access even if they
+have obtained one factor (e.g., a password).
+Password
+Smart-phone or a security token
+Biometric data like fingerprints or facial recognition
+
+4 PHS
+attackers take advantage of weak password management pro-
+cedures to reveal users’ credentials, which hurts both users and providers. In
+the majority of these cases, the user data was either processed directly by a
+cryptographic hash function or kept in cleartext.
+
+We use password-hashing procedures to secure this user-related data. Currently,
+the Password-Based Key Derivation Function 2 (PBKDF2) standard primitive is in use, 
+however other popular schemes like Blowfish cipher - Bcrypt and Scrypt
+are also in use. The development of parallel computing has made it possible for
+multiple password-hash cracking attempts.
+
+For the purpose of developing new, widely-acceptable password-hashing algo-
+rithms that are more safe and efficient, the global cryptography community
+organized the Password Hashing Competition (PHC). PHC improved our un-
+derstanding of hashing passwords. Security flaws were discovered through more
+investigation, and new methods were subsequently developed.
+
+5 Background theory
+A password is a secret that is straightforward for the user to remember and consists of just a few printed characters. 
+In computer systems, passwords are frequently used for user authentication. 
+For each account, the system keeps track of the user’s identity and password. 
+The individual then uses this information to log in and access the service.
+
+The creation of cryptographic keys is another use for passwords. 
+Based on an input password, the Key-Derivation Functions (KDF) generates a variety of cryptographic keys. 
+KDFs primarily serve for session data encryption, and cryptographic keys are applied by encryption/decryption functions.
+
+Encryption converts plaintext into ciphertext using an encryption algorithm and a key, while decryption reverses this process to recover the original plaintext. 
+These processes play a crucial role in protecting data confidentiality and integrity, ensuring that only authorized users can access and understand the encrypted information.
+
+// maybe
+cryptographic keys play a critical role in ensuring the security of data and communications in cryptographic systems. They enable encryption, decryption, digital signing, and authentication, helping to protect sensitive information from unauthorized access, tampering, or interception. Proper key management practices are essential to maintaining the effectiveness and security of cryptographic systems.
+//
+
+6 KDF
+Essentially, a key derivation function offers a safe method for producing
+cryptographic keys from a single secret value, guaranteeing the confiden-
+tiality and integrity of the derived keys and making them appropriate for
+usage in cryptographic protocols and applications.
+
+What is a KDF (Key Derivation Function)?
+A KDF is a tool used in cryptography to generate one or more secret keys from a single, fixed-length secret value, like a master key or a passphrase.
+
+Input to the KDF:
+The KDF takes as input the secret value (like a password) and sometimes additional information, such as a salt.
+A salt is a random value that is unique to each usage scenario. It's like adding a little extra spice to your secret to make it more secure.
+
+Expanding the Input:
+The KDF expands the input secret into one or more longer keys.
+This process involves using a cryptographic hash function or other algorithms repeatedly on the input, possibly mixing in the salt or other parameters.
+The goal is to generate keys that are hard to predict and have high randomness.
+
+Output of the KDF:
+The output of the KDF is one or more derived keys.
+These keys can be used for various cryptographic purposes, such as encrypting data, authenticating users, or generating other cryptographic parameters.
+
+Security Features of a Strong KDF:
+Key Derivation: Both the derived keys and the input secret should be independent of each other computationally. This means knowing one shouldn't reveal the other.
+Resistance to Attacks: A good KDF should resist different types of cryptographic attacks, like brute-force attacks (trying all possible inputs) and pre-image attacks (trying to figure out the input from the output).
+Salt and Context Sensitivity: By using a salt and considering context information, the security of the derived keys is enhanced. Each application or usage scenario gets its unique set of keys, making them harder to crack.
+
+
+7 PBKDF2
+Password Based Key-Derivation Function 2 
+PBKDF2 is a widely used key derivation function that's designed to derive cryptographic keys from a password or passphrase.
+Hashing-based techniques are the standard option for establishing password protection. 
+
+The primary methods for making KDFs possible are keyed-hash message authentication codes (HMACs) 
+and cryptographic hash functions that translate a password into one or more secret keys.
+
+PBKDF2 uses pseudo-random functions (PRF), commonly implemented by HMACs. 
+HMAC is a specific type of PRF that's widely used in cryptographic applications for generating message authentication codes.
+The SHA-256 function is the standard internal hash option for the HMAC.
+
+PBKDF2 steps:
+The salt and the password are initially processed by the HMAC.
+The derived key is then generated by processing the data multiple times.
+Although 1000 iterations is the minimum required amount, given that the guideline was set in 2000, it is no longer deemed sufficient.
+The password and the previous HMAC result are parsed by the HMAC at each repetition.
+The HMAC outcomes are then XORed.
+The outcome of the XOR operation in the last round is the final hash.
+
+8 Bcrypt
+Description:
+It uses a special encryption algorithm called Blowfish and adjusts its security measures based on how powerful attackers' computers are. It also adds extra randomness to each password with a unique salt, making it even harder for attackers to guess passwords.
+
+Bcrypt steps:
+Bcrypt starts by setting up the Blowfish cipher with a cost parameter, a salt (a random value), and your password. 
+This sets up a complex system of encryption.
+
+Bcrypt then creates a set of subkeys based on your password. 
+These subkeys are mixed with the original password in a special way.
+
+The salt is encrypted using the key schedule. 
+This process repeats several times, making it harder for attackers to reverse-engineer the password.
+
+A special value is encrypted multiple times using Blowfish. 
+This further scrambles the data.
+
+The final hash is created by combining the salt, cost, and the result of the encryption process.
+
+9 Scrypt
+Description:
+Scrypt is designed to be a memory-hard password hashing scheme, which means
+it makes it difficult for attackers to use large amounts of memory when trying
+to crack passwords
+
+this system uses a combination of PBKDF2 and the Salsa cipher for key derivation and additional cryptographic operations. 
+It includes features like MFcrypt to slow down attackers, 
+ROMix, BlockMix, and SMix to shuffle and mix random values in memory for added security, 
+and parallelization parameters to control the computational effort required. 
+Finally, it combines these components to derive secure keys for protecting passwords and sensitive data.
+
+10 Password cracking tools
+Attackers use different techniques to crack passwords. 
+Some use probability models, but they're not always practical due to the high computational requirements. 
+Instead, tools like Hashcat and John the Ripper employ mangled-wordlist attacks, exploiting predictable patterns in passwords to crack them more efficiently.
+
+11 Hashcat
+
+Hashcat is a popular password cracking tool used by security professionals
+and attackers to recover lost or forgotten passwords or to test the strength of
+passwords.
+
+Types of attacks:
+Brute-Force Attack: Hashcat can perform a brute-force attack, where it
+systematically tries every possible combination of characters until it finds
+the correct password. This method is effective but can be time-consuming,
+especially for longer and more complex passwords.
+
+Dictionary Attack: Instead of trying every possible combination, Hashcat
+can use a predefined list of commonly used passwords, called a dictionary,
+to attempt to crack passwords. This method is faster than brute-force but
+relies on the likelihood that the password is contained in the dictionary.
+
+Combination Attack: Hashcat can also combine both brute-force and dic-
+tionary attacks. It starts with the words in the dictionary and then ap-
+pends, prepends, or replaces characters to create variations of those words,
+effectively expanding the search space.
+
+Rule-Based Attack: Hashcat supports rule-based attacks where users can
+define custom rules to manipulate the dictionary words before attempting
+them as passwords. For example, rules can be created to add numbers or
+special characters to the end of dictionary words.
+
+Mask Attack: This method allows users to specify a mask or template for
+the password, defining the possible characters and their positions. Hashcat
+then generates and tests passwords based on this mask.
+
+Hybrid Attack: Hashcat can combine different attack modes to increase
+the chances of cracking passwords. For example, it can perform a dictio-
+nary attack with rule-based mutations.
+
+
+12 JTR
+John the Ripper is another widely used password cracking tool utilized by
+security professionals and attackers alike. It operates using similar techniques
+as Hashcat, employing various methods to crack passwords. It is a versatile and
+powerful tool for cracking passwords, offering various techniques to suit different
+scenarios and types of passwords
+
+Types of attacks:
+Dictionary Attack: John the Ripper can perform a dictionary attack by
+trying words from a predefined list of common passwords or from a custom
+dictionary file. It systematically checks each word in the dictionary against
+the hashed passwords to see if there’s a match.
+
+Brute-Force Attack: Like Hashcat, John the Ripper can also conduct
+brute-force attacks by systematically trying every possible combination
+of characters until it finds the correct password. This method is effec-
+tive but can be time-consuming, especially for longer and more complex
+passwords.
+
+Rule-Based Attack: John the Ripper supports rule-based attacks where
+users can define custom rules to manipulate the dictionary words before
+attempting them as passwords. For example, rules can be created to add
+numbers or special characters to the end of dictionary words.
+
+Incremental Mode: This mode in John the Ripper generates passwords by
+incrementally increasing their length and complexity based on predefined
+rules. It starts with short passwords and gradually builds up to longer
+ones, trying different combinations along the way.
+
+Hybrid Attack: John the Ripper can combine different attack modes, such
+as dictionary attacks with rule-based mutations or brute-force attacks with
+specific character sets.
+
+Single Crack Mode: This mode allows John the Ripper to crack password
+hashes with just one attempt, using various techniques like dictionary,
+brute-force, and incremental attacks
+
+
+13 Progress report 2 plans
+Set up Virtual box for Kali Linux
+Try out Hashcat and JTR
+Compare how they work and their performance
+Prepare samples of both tools
+
+Thank you for your attention!
