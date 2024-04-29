@@ -1,0 +1,4 @@
+graphs and tables for comparing
+results
+relations
+if longer passwords are harder to crack
